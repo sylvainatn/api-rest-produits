@@ -64,6 +64,12 @@ router.put('/produits/:id', async (req, res) => {
          { _id: id },  // Utilisation de l'ID numérique comme champ dans la base de données
          { $set: { name, type, price, rating, warranty_years, available } }
       );
+
+      if (result.matchedCount === 0) {
+         return res.status(404).json({ message: 'Produit non trouvé' });
+      }
+
+      res.json({ message: 'Produit mis à jour avec succès', id });
    } catch (err) {
       console.error('Erreur lors de la modification du produit:', err);
       res.status(500).json({ message: 'Erreur lors de la modification du produit', error: err });
