@@ -17,10 +17,11 @@ router.get('/produits', async (req, res) => {
 
 // Ajouter un produit
 router.post('/produits', async (req, res) => {
-
    const { name, type, price, rating, warranty_years, available } = req.body;
 
    try {
+      console.log('Données reçues :', req.body); // Log des données envoyées par le frontend
+
       const db = await connectDB();
       const lastProduct = await db.collection('produits').find().sort({ _id: -1 }).limit(1).toArray();
       const newId = lastProduct.length > 0 ? lastProduct[0]._id + 1 : 1;
@@ -29,20 +30,32 @@ router.post('/produits', async (req, res) => {
          _id: newId,
          name,
          type,
-         price: Number(price),
-         rating: Number(rating),
-         warranty_years: Number(warranty_years),
+         price,
+         rating,
+         warranty_years,
          available: available === "Oui" ? true : false,
       };
 
-      // Insérer le produit dans la collection
+      console.log('Produit à insérer :', produit); // Log du produit avant l'insertion
+
       const result = await db.collection('produits').insertOne(produit);
 
+      if (result.acknowledged) {
+         res.json({
+            message: 'Produit ajouté avec succès',
+            produit,
+         });
+      } else {
+         res.status(500).json({ message: 'Erreur lors de l\'ajout du produitssssssssss' });
+      }
+
    } catch (err) {
-      console.error("Erreur lors de l'ajout du produit :", err);
+      console.error("Erreur lors de l'ajout du produit :", err); // Log des erreurs côté serveur
       res.status(500).json({ message: 'Erreur lors de l\'ajout du produit', error: err.message });
    }
 });
+
+
 
 
 
@@ -85,6 +98,13 @@ router.delete('/produits/:id', async (req, res) => {
    try {
       const db = await connectDB();
       const result = await db.collection('produits').deleteOne({ _id: id });
+      // Vérifier si un produit a été supprimé
+      if (result.deletedCount === 1) {
+         const produits = await db.collection('produits').find().toArray();
+         res.json({ message: 'Produit supprimé avec succès', produits: produits });
+      } else {
+         res.status(404).json({ message: 'Produit non trouvé' });
+      }
    } catch (err) {
       res.status(500).json({ message: 'Erreur lors de la suppression du produit', error: err });
    }
