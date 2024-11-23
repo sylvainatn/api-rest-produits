@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { TextField, Button, FormControlLabel, Checkbox, Snackbar } from '@mui/material';
+import { TextField, Button, FormControlLabel, Checkbox, Snackbar, Container, Grid } from '@mui/material';
+
 
 const ProductForm = ({ isEditing, currentProduct, setIsEditing, fetchProduits }) => {
 
@@ -29,7 +30,6 @@ const ProductForm = ({ isEditing, currentProduct, setIsEditing, fetchProduits })
          setAvailable(currentProduct.available);
       }
    }, [isEditing, currentProduct]);
-
 
    const handleSubmit = async (e) => {
       e.preventDefault();
@@ -73,94 +73,102 @@ const ProductForm = ({ isEditing, currentProduct, setIsEditing, fetchProduits })
       }
    };
 
-
    const handleCloseSnackbar = () => {
       setOpen(false);
    };
 
    return (
-      <>
-         <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '16px', width: '500px', alignItems: 'center' }}>
-            <div>
-               <TextField
-                  label="Nom du produit"
-                  variant="outlined"
-                  fullWidth
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  required
-               />
-            </div>
+      <Container maxWidth="sm" style={{ marginTop: 20 }}>
+         <form onSubmit={handleSubmit}>
+            <Grid container spacing={2}>
+               {/* Nom du produit */}
+               <Grid item xs={12} sm={6}>
+                  <TextField
+                     label="Nom du produit"
+                     variant="outlined"
+                     fullWidth
+                     value={name}
+                     onChange={(e) => setName(e.target.value)}
+                     required
+                  />
+               </Grid>
 
-            <div>
-               <TextField
-                  label="Type de produit"
-                  variant="outlined"
-                  fullWidth
-                  value={type}
-                  onChange={(e) => setType(e.target.value)}
-                  required
-               />
-            </div>
+               {/* Type de produit */}
+               <Grid item xs={12} sm={6}>
+                  <TextField
+                     label="Type de produit"
+                     variant="outlined"
+                     fullWidth
+                     value={type}
+                     onChange={(e) => setType(e.target.value)}
+                     required
+                  />
+               </Grid>
 
-            <div>
-               <TextField
-                  label="Prix"
-                  variant="outlined"
-                  fullWidth
-                  type="number"
-                  value={price}
-                  onChange={(e) => setPrice(e.target.value)}
-                  required
-               />
-            </div>
+               {/* Prix */}
+               <Grid item xs={12} sm={6}>
+                  <TextField
+                     label="Prix"
+                     variant="outlined"
+                     fullWidth
+                     type="number"
+                     value={price}
+                     onChange={(e) => setPrice(e.target.value)}
+                     required
+                  />
+               </Grid>
 
-            <div>
-               <TextField
-                  label="Rating"
-                  variant="outlined"
-                  fullWidth
-                  type="number"
-                  value={rating}
-                  onChange={(e) => setRating(e.target.value)}
-                  required
-               />
-            </div>
+               {/* Rating */}
+               <Grid item xs={12} sm={6}>
+                  <TextField
+                     label="Rating"
+                     variant="outlined"
+                     fullWidth
+                     type="number"
+                     value={rating}
+                     onChange={(e) => setRating(e.target.value)}
+                     required
+                  />
+               </Grid>
 
-            <div>
-               <TextField
-                  label="Garantie (années)"
-                  variant="outlined"
-                  fullWidth
-                  type="number"
-                  value={warranty_years}
-                  onChange={(e) => setWarranty_years(e.target.value)}
-                  required
-               />
-            </div>
+               {/* Garantie (années) */}
+               <Grid item xs={12} sm={6}>
+                  <TextField
+                     label="Garantie (années)"
+                     variant="outlined"
+                     fullWidth
+                     type="number"
+                     value={warranty_years}
+                     onChange={(e) => setWarranty_years(e.target.value)}
+                     required
+                  />
+               </Grid>
 
-            <div>
-               <FormControlLabel
-                  control={
-                     <Checkbox
-                        checked={available}
-                        onChange={(e) => setAvailable(e.target.checked)}
-                        color="primary"
-                     />
-                  }
-                  label="Disponible"
-               />
-            </div>
+               {/* Disponible */}
+               <Grid item xs={12} sm={6}>
+                  <FormControlLabel
+                     control={
+                        <Checkbox
+                           checked={available}
+                           onChange={(e) => setAvailable(e.target.checked)}
+                           color="primary"
+                        />
+                     }
+                     label="Disponible"
+                  />
+               </Grid>
 
-            <div>
-               <Button
-                  type="submit"
-                  variant="contained"
-                  color="primary"
-                  fullWidth>
-                  {isEditing ? 'Mettre à jour' : 'Ajouter'}
-               </Button>
-            </div>
+               {/* Bouton de soumission */}
+               <Grid item xs={12}>
+                  <Button
+                     type="submit"
+                     variant="contained"
+                     color="primary"
+                     fullWidth>
+                     {isEditing ? 'Mettre à jour' : 'Ajouter'}
+                  </Button>
+               </Grid>
+            </Grid>
          </form>
 
          {/* Snackbar pour afficher les messages de succès ou d'erreur */}
@@ -170,7 +178,7 @@ const ProductForm = ({ isEditing, currentProduct, setIsEditing, fetchProduits })
             onClose={handleCloseSnackbar}
             message={message}
          />
-      </>
+      </Container>
    );
 };
 

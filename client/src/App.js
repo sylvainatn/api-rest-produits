@@ -1,35 +1,55 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import { Container, Typography, Box, CircularProgress, Alert } from '@mui/material';
 import ProductList from './components/ProductList';
 import ProductForm from './components/ProductForm';
-import { Container, Typography, Box, CircularProgress, Alert } from '@mui/material';
+import axios from 'axios';
+import { io } from 'socket.io-client';
+
+
+const socket = io('http://localhost:5000');
 
 const App = () => {
+
   const [produits, setProduits] = useState([]);
   const [isEditing, setIsEditing] = useState(false);
   const [currentProduct, setCurrentProduct] = useState(null);
-  const [loading, setLoading] = useState(false); // Loading state
-  const [error, setError] = useState(null); // Error handling state
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
-  // Fonction pour récupérer les produits
+
+  // Définition de fetchProduits
   const fetchProduits = async () => {
-    setLoading(true); // Start loading
-    setError(null); // Reset error state
+    setLoading(true);
+    setError(null);
     try {
-      const response = await axios.get('http://localhost:5000/api/produits'); // URL de l'API backend
-      setProduits(response.data); // Mettre à jour les produits
-    } catch (error) {
+      const response = await axios.get('http://localhost:5000/api/produits');
+      setProduits(response.data);
+    } catch (err) {
       setError('Erreur lors de la récupération des produits');
-      console.error(error);
     } finally {
-      setLoading(false); // Stop loading
+      setLoading(false);
     }
   };
 
-  // Appel de la fonction fetchProduits au premier rendu
+
   useEffect(() => {
-    fetchProduits();
+    fetchProduits(); // Appel initial pour charger les produits
+
+    // Gestion des événements WebSocket
+    socket.on('produitAjoute', (nouveauProduit) => {
+      setProduits((prevProduits) => [...prevProduits, nouveauProduit]);
+    });
+
+    socket.on('produitSupprime', ({ id }) => {
+      setProduits((prevProduits) => prevProduits.filter((produit) => produit._id !== id));
+    });
+
+    return () => {
+      socket.off('produitAjoute');
+      socket.off('produitSupprime');
+    };
   }, []);
+
 
   const handleEdit = (product) => {
     setCurrentProduct(product);
@@ -39,7 +59,7 @@ const App = () => {
   const handleDelete = async (id) => {
     try {
       await axios.delete(`http://localhost:5000/api/produits/${id}`);
-      fetchProduits();
+      setProduits((prevProduits) => prevProduits.filter((produit) => produit._id !== id)); // Mise à jour locale
     } catch (error) {
       console.error('Erreur lors de la suppression du produit', error);
     }
@@ -47,7 +67,7 @@ const App = () => {
 
   const handleFormClose = () => {
     setIsEditing(false);
-    setCurrentProduct(null); // Reset current product after adding/updating
+    setCurrentProduct(null);
   };
 
   return (
@@ -57,25 +77,22 @@ const App = () => {
         isEditing={isEditing}
         currentProduct={currentProduct}
         setIsEditing={setIsEditing}
-        fetchProduits={fetchProduits}
+        fetchProduits={fetchProduits} // Passé comme prop
         handleFormClose={handleFormClose}
       />
 
-      {/* Affichage du loader pendant le chargement des produits */}
       {loading && (
         <Box display="flex" justifyContent="center" sx={{ marginTop: 2 }}>
           <CircularProgress />
         </Box>
       )}
 
-      {/* Affichage des erreurs si besoin */}
       {error && (
         <Alert severity="error" sx={{ marginTop: 2 }}>
           {error}
         </Alert>
       )}
 
-      {/* Affichage de la liste des produits */}
       {!loading && !error && (
         <ProductList produits={produits} onEdit={handleEdit} onDelete={handleDelete} />
       )}
