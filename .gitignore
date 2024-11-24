@@ -1,10 +1,6 @@
 # Ignorer les fichiers spécifiques au système d'exploitation
-/node_modules
 .DS_Store
 Thumbs.db
-
-# Ignorer les dossiers .git dans les sous-projets
-
 
 # Ignorer les fichiers de configuration de l'éditeur
 .vscode/
