@@ -1,6 +1,6 @@
 import express from 'express';
-import { connectDB } from './database.js'; // Assurez-vous d'utiliser le bon chemin d'importation
-import { validateProduct } from './productValidators.js'; // Importer le validateur
+import { connectDB } from './database.js'; 
+import { validateProduct } from './productValidators.js'; 
 
 const router = express.Router();
 
