@@ -1,4 +1,4 @@
-const { MongoClient } = require('mongodb');
+import { MongoClient } from 'mongodb';
 
 let db;
 
@@ -16,7 +16,7 @@ const connectDB = async () => {
       const collections = await db.listCollections({ name: 'produits' }).toArray();
       if (collections.length > 0) {
          await collection.drop();
-         console.log(`Collection produits supprimée.`);
+         console.log('Collection produits supprimée.');
       }
 
       // Documents à insérer
@@ -30,7 +30,8 @@ const connectDB = async () => {
       // Insérer les documents dans la collection
       const result = await collection.insertMany(documents);
 
-      console.log(`${result.insertedCount} documents ont été insérés dans la collection produits".`);
+      // Correction du message de log
+      console.log(`${result.insertedCount} documents ont été insérés dans la collection produits.`);
 
       return db;
    } catch (err) {
@@ -39,4 +40,4 @@ const connectDB = async () => {
    }
 };
 
-module.exports = connectDB;
+export { connectDB };

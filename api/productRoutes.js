@@ -1,7 +1,8 @@
-const connectDB = require('./database');
-const express = require('express');
-const router = express.Router();
+import express from 'express';
+import { connectDB } from './database.js'; // Assurez-vous d'utiliser le bon chemin d'importation
+import { validateProduct } from './productValidators.js'; // Importer le validateur
 
+const router = express.Router();
 
 // Récupérer tous les produits
 router.get('/produits', async (req, res) => {
@@ -18,24 +19,13 @@ router.get('/produits', async (req, res) => {
 
 // Ajouter un produit
 router.post('/produits', async (req, res) => {
-
-   const { name, type, price, rating, warranty_years, available } = req.body;
-
    try {
+      // Valider les données
+      const produit = validateProduct(req.body);
       const db = await connectDB();
       const lastProduct = await db.collection('produits').find().sort({ _id: -1 }).limit(1).toArray();
       const newId = lastProduct.length > 0 ? lastProduct[0]._id + 1 : 1;
-
-      const produit = {
-         _id: newId,
-         name,
-         type,
-         price,
-         rating,
-         warranty_years,
-         available: available === "Oui" ? true : false,
-      };
-
+      produit._id = newId;
       const result = await db.collection('produits').insertOne(produit);
 
       if (result.acknowledged) {
@@ -45,45 +35,43 @@ router.post('/produits', async (req, res) => {
             produit,
          });
       } else {
-         res.status(500).json({ message: 'Erreur lors de l\'ajout du produit' });
+         res.status(500).json({ message: 'Erreur lors de l\'ajout du produits' });
       }
    } catch (err) {
-      res.status(500).json({ message: 'Erreur lors de l\'ajout du produit', error: err.message });
+      res.status(400).json({ message: 'Données invalides', errors: err.message });
    }
 });
 
 
 // Modifier un produit
 router.put('/produits/:id', async (req, res) => {
-
    let { id } = req.params;
    id = Number(id);
-
-   const { name, type, price, rating, warranty_years, available } = req.body;
 
    if (isNaN(id)) {
       return res.status(400).json({ message: 'L\'ID doit être un nombre valide' });
    }
 
    try {
+      // Valider les données
+      const updatedData = validateProduct(req.body);
+
       const db = await connectDB();
       const result = await db.collection('produits').updateOne(
          { _id: id },
-         { $set: { name, type, price, rating, warranty_years, available } }
+         { $set: updatedData }
       );
 
       if (result.matchedCount === 0) {
          return res.status(404).json({ message: 'Produit non trouvé' });
       }
 
-      const updatedProduit = { _id: id, name, type, price, rating, warranty_years, available };
-      req.io.emit('produitModifie', updatedProduit);
-      res.json({ message: 'Produit mis à jour avec succès', updatedProduit });
+      req.io.emit('produitModifie', { _id: id, ...updatedData });
+      res.json({ message: 'Produit mis à jour avec succès', produit: { _id: id, ...updatedData } });
    } catch (err) {
-      res.status(500).json({ message: 'Erreur lors de la modification du produit', error: err });
+      res.status(400).json({ message: 'Données invalides', errors: err.message });
    }
 });
-
 
 
 // Supprimer un produit
@@ -108,5 +96,4 @@ router.delete('/produits/:id', async (req, res) => {
    }
 });
 
-
-module.exports = router;
+export default router;

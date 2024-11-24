@@ -1,9 +1,9 @@
-const express = require('express');
-const cors = require('cors');
-const bodyParser = require('body-parser');
-const { createServer } = require('http');
-const { Server } = require('socket.io');
-const routes = require('./routes');
+import express from 'express';
+import cors from 'cors';
+import bodyParser from 'body-parser';
+import { createServer } from 'http';
+import { Server } from 'socket.io';
+import routes from './productRoutes.js'; // Assurez-vous que ce fichier existe et utilise `export default`
 
 const app = express();
 const port = 5000;

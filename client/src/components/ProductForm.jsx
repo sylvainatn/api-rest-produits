@@ -37,22 +37,22 @@ const ProductForm = ({ isEditing, currentProduct, setIsEditing, fetchProduits })
       const product = {
          name,
          type,
-         price: Number(price),
-         rating: Number(rating),
-         warranty_years: Number(warranty_years),
+         price,
+         rating,
+         warranty_years,
          available
       };
 
       try {
-         let response;
+         let serverResponse;
 
          if (isEditing) {
-            response = await axios.put(`${API_URL}/produits/${currentProduct._id}`, product);
+            serverResponse = await axios.put(`${API_URL}/produits/${currentProduct._id}`, product);
          } else {
-            response = await axios.post(`${API_URL}/produits`, product);
+            serverResponse = await axios.post(`${API_URL}/produits`, product);
          }
 
-         setMessage(response.data.message);  // Message de l'API
+         setMessage(serverResponse.data.message); // Message de l'API
          setOpen(true);
 
          // Récupérer la liste mise à jour des produits
@@ -67,8 +67,12 @@ const ProductForm = ({ isEditing, currentProduct, setIsEditing, fetchProduits })
          setAvailable(false);
 
       } catch (error) {
-         console.error('Erreur lors de l\'ajout ou modification du produit', error);
-         setMessage('Erreur lors de l\'ajout du produit');
+
+         if (error.response && error.response.data) {
+            setMessage(error.response.data.errors);
+         } else {
+            setMessage('Erreur lors de l\'ajout ou modification du produit');
+         }
          setOpen(true);
       }
    };
@@ -171,7 +175,7 @@ const ProductForm = ({ isEditing, currentProduct, setIsEditing, fetchProduits })
             </Grid>
          </form>
 
-         {/* Snackbar pour afficher les messages de succès ou d'erreur */}
+         {/* Afficher les messages de succès ou d'erreur */}
          <Snackbar
             open={open}
             autoHideDuration={6000}
