@@ -3,7 +3,7 @@ import cors from 'cors';
 import bodyParser from 'body-parser';
 import { createServer } from 'http';
 import { Server } from 'socket.io';
-import routes from './productRoutes.js'; // Assurez-vous que ce fichier existe et utilise `export default`
+import routes from './productRoutes.js'; 
 
 const app = express();
 const port = 5000;
