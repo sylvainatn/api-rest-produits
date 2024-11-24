@@ -9,21 +9,27 @@ const ProductList = ({ produits, onEdit, onDelete }) => {
          <Typography variant="h4" gutterBottom>
             Liste des produits
          </Typography>
-         <Grid container spacing={2}>
-            {produits.length > 0 ? (
-               produits.map((product) => (
-                  <Grid item xs={12} sm={6} md={4} key={product._id}>
-                     <ProductItem
-                        product={product}
-                        onEdit={onEdit}
-                        onDelete={onDelete}
-                     />
-                  </Grid>
-               ))
-            ) : (
-               <Typography variant="body1">Aucun produit disponible</Typography>
-            )}
-         </Grid>
+         <div
+            style={{
+               paddingBottom: '40px',
+            }}
+         >
+            <Grid container spacing={2}>
+               {produits.length > 0 ? (
+                  produits.map((product) => (
+                     <Grid item xs={12} sm={6} md={4} key={product._id}>
+                        <ProductItem
+                           product={product}
+                           onEdit={onEdit}
+                           onDelete={onDelete}
+                        />
+                     </Grid>
+                  ))
+               ) : (
+                  <Typography variant="body1">Aucun produit disponible</Typography>
+               )}
+            </Grid>
+         </div>
       </div>
    );
 };

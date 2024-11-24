@@ -33,7 +33,7 @@ const ProductItem = ({ product, onEdit, onDelete }) => {
                Rating: {product.rating ? product.rating : 'N/A'}
             </Typography>
             <Typography variant="body2" color="textSecondary">
-               Garantie: {product.warranty_years ? product.warranty_years : 'Non spécifiée'} ans
+               Garantie: {product.warranty_years ? `${product.warranty_years} ${product.warranty_years > 1 ? 'ans' : 'an'}` : 'Non spécifiée'}
             </Typography>
             <Typography variant="body2" color={product.available ? 'green' : 'red'}>
                {product.available ? 'Disponible' : 'Non disponible'}
