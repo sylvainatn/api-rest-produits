@@ -1,4 +1,5 @@
 # Ignorer les fichiers spécifiques au système d'exploitation
+/node_modules
 .DS_Store
 Thumbs.db
 

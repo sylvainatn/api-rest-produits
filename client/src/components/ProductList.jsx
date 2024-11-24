@@ -1,27 +1,32 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Grid, Typography } from '@mui/material';
 import ProductItem from './ProductItem';
 
 const ProductList = ({ produits, onEdit, onDelete }) => {
    return (
-      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '16px', marginTop: '15px' }}>
-         {produits.length > 0 ? (
-            produits.map(product => (
-               <div key={product._id}> {/* Flexbox pour les éléments */}
-                  <ProductItem
-                     product={product}
-                     onEdit={onEdit}
-                     onDelete={onDelete}
-                  />
-               </div>
-            ))
-         ) : (
-            <div>Aucun produit disponible</div>
-         )}
+      <div><br />
+         <Typography variant="h4" gutterBottom>
+            Liste des produits
+         </Typography>
+         <Grid container spacing={2}>
+            {produits.length > 0 ? (
+               produits.map((product) => (
+                  <Grid item xs={12} sm={6} md={4} key={product._id}>
+                     <ProductItem
+                        product={product}
+                        onEdit={onEdit}
+                        onDelete={onDelete}
+                     />
+                  </Grid>
+               ))
+            ) : (
+               <Typography variant="body1">Aucun produit disponible</Typography>
+            )}
+         </Grid>
       </div>
    );
 };
-
 
 ProductList.propTypes = {
    produits: PropTypes.arrayOf(
@@ -38,7 +43,5 @@ ProductList.propTypes = {
    onEdit: PropTypes.func.isRequired,
    onDelete: PropTypes.func.isRequired,
 };
-
-
 
 export default ProductList;

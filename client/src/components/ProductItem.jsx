@@ -1,58 +1,55 @@
 import React from 'react';
-import { Button, Card, CardContent, Typography, Grid } from '@mui/material';
+import { Card, CardContent, Typography, IconButton, Box } from '@mui/material';
 import PropTypes from 'prop-types';
-
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 const ProductItem = ({ product, onEdit, onDelete }) => {
    return (
-      <Grid item xs={12} sm={6} md={4} lg={3}>
-         <Card sx={{ maxWidth: 273.34, marginBottom: 2 }}>
-            <CardContent>
-               <Typography variant="h6" gutterBottom>
-                  {product.name}
-               </Typography>
+      <Card
+         variant="outlined"
+         sx={{
+            boxShadow: 3, // Ajoute un box-shadow (3 correspond à une valeur par défaut de MUI)
+            '&:hover': {
+               boxShadow: 6, // Plus intense au survol
+            },
+            borderRadius: 2, // Arrondi des coins
+            padding: 0, // Espace interne de la carte
+         }}
+      >
+         <CardContent>
+            <Typography variant="h6" component="div">
+               {product.name}
+            </Typography>
+            {/* Vérification du prix avant affichage */}
+            <Typography variant="body1" color="primary">
+               {product.price ? `${product.price}€` : 'Prix non spécifié'}
+            </Typography>
+            <Typography variant="body2" color="textSecondary">
+               Type: {product.type}
+            </Typography>
 
-               <Typography variant="body2" color="textSecondary">
-                  <strong>Type de produit:</strong> {product.type}
-               </Typography>
-
-               <Typography variant="body2" color="textSecondary">
-                  <strong>Prix:</strong> {product.price} €
-               </Typography>
-
-               <Typography variant="body2" color="textSecondary">
-                  <strong>Notation:</strong> {product.rating}
-               </Typography>
-
-               <Typography variant="body2" color="textSecondary">
-                  <strong>Garantie:</strong> {product.warranty_years} {product.warranty_years >= 0 ? 'an' : 'ans'}
-               </Typography>
-
-               <Typography variant="body2" color="textSecondary">
-                  <strong>Disponible:</strong> {product.available ? 'Oui' : 'Non'}
-               </Typography>
-
-               <div style={{ marginTop: '16px' }}>
-                  <Button
-                     variant="contained"
-                     color="primary"
-                     onClick={() => onEdit(product)}
-                     style={{ marginRight: '8px' }}
-                  >
-                     Modifier
-                  </Button>
-
-                  <Button
-                     variant="outlined"
-                     color="error"
-                     onClick={() => onDelete(product._id)}
-                  >
-                     Supprimer
-                  </Button>
-               </div>
-            </CardContent>
-         </Card>
-      </Grid>
+            <Typography variant="body2" color="textSecondary">
+               Rating: {product.rating ? product.rating : 'N/A'}
+            </Typography>
+            <Typography variant="body2" color="textSecondary">
+               Garantie: {product.warranty_years ? product.warranty_years : 'Non spécifiée'} ans
+            </Typography>
+            <Typography variant="body2" color={product.available ? 'green' : 'red'}>
+               {product.available ? 'Disponible' : 'Non disponible'}
+            </Typography>
+         </CardContent>
+         <Box display="flex" justifyContent="flex-end" p={1}>
+            {/* Bouton pour modifier */}
+            <IconButton onClick={() => onEdit(product)}>
+               <EditIcon color="primary" />
+            </IconButton>
+            {/* Bouton pour supprimer */}
+            <IconButton onClick={() => onDelete(product._id)} color="error">
+               <DeleteIcon />
+            </IconButton>
+         </Box>
+      </Card>
    );
 };
 
@@ -60,9 +57,9 @@ ProductItem.propTypes = {
    product: PropTypes.shape({
       name: PropTypes.string.isRequired,
       type: PropTypes.string.isRequired,
-      price: PropTypes.number.isRequired,
-      rating: PropTypes.number,
-      warranty_years: PropTypes.number,
+      price: PropTypes.number,  // Le prix peut être nul ou non défini
+      rating: PropTypes.number, // Le rating peut être nul ou non défini
+      warranty_years: PropTypes.number, // La garantie peut être nulle ou non définie
       available: PropTypes.bool.isRequired,
       _id: PropTypes.string.isRequired,
    }).isRequired,

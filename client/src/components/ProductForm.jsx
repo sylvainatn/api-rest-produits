@@ -3,7 +3,6 @@ import axios from 'axios';
 import PropTypes from 'prop-types';
 import { TextField, Button, FormControlLabel, Checkbox, Snackbar, Grid, Typography } from '@mui/material';
 
-
 const ProductForm = ({ isEditing, currentProduct, setIsEditing, fetchProduits }) => {
 
    // Déclarations des états pour les champs du formulaire
@@ -31,6 +30,19 @@ const ProductForm = ({ isEditing, currentProduct, setIsEditing, fetchProduits })
          setAvailable(currentProduct.available);
       }
    }, [isEditing, currentProduct]);
+
+   // Fonction pour réinitialiser les champs du formulaire
+   const handleReset = () => {
+      // Réinitialiser les champs à leurs valeurs initiales
+      setName('');
+      setType('');
+      setPrice('');
+      setRating('');
+      setWarranty_years('');
+      setAvailable(false);
+      setIsEditing(false);
+
+   };
 
    const handleSubmit = async (e) => {
       e.preventDefault();
@@ -60,13 +72,8 @@ const ProductForm = ({ isEditing, currentProduct, setIsEditing, fetchProduits })
          fetchProduits();
 
          // Réinitialiser les champs du formulaire
-         setName('');
-         setType('');
-         setPrice('');
-         setRating('');
-         setWarranty_years('');
-         setAvailable(false);
-         setIsEditing(false);
+         handleReset();
+
 
       } catch (error) {
 
@@ -82,8 +89,6 @@ const ProductForm = ({ isEditing, currentProduct, setIsEditing, fetchProduits })
    const handleCloseSnackbar = () => {
       setOpen(false);
    };
-
-
 
    return (
       <div>
@@ -214,6 +219,24 @@ const ProductForm = ({ isEditing, currentProduct, setIsEditing, fetchProduits })
                      color="primary"
                   >
                      {isEditing ? 'Mettre à jour' : 'Ajouter'}
+                  </Button>
+               </Grid>
+
+               {/* Bouton pour réinitialiser tous les champs */}
+               <Grid item xs={12}>
+                  <Button
+                     type="button"
+                     variant="contained"
+                     sx={{
+                        backgroundColor: '#FFEB3B', // Jaune (vous pouvez ajuster ce code couleur si nécessaire)
+                        '&:hover': {
+                           backgroundColor: '#FDD835', // Jaune plus foncé au survol
+                        },
+                     }}
+                     color="black"
+                     onClick={handleReset} // Appel de la fonction pour réinitialiser
+                  >
+                     Effacer tout
                   </Button>
                </Grid>
             </Grid>
