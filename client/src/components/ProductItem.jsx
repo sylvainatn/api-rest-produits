@@ -4,7 +4,7 @@ import { Button, Card, CardContent, Typography, Grid } from '@mui/material';
 const ProductItem = ({ product, onEdit, onDelete }) => {
    return (
       <Grid item xs={12} sm={6} md={4} lg={3}>
-         <Card sx={{ maxWidth: 345, marginBottom: 2 }}>
+         <Card sx={{ maxWidth: 273.34, marginBottom: 2 }}>
             <CardContent>
                <Typography variant="h6" gutterBottom>
                   {product.name}
@@ -23,7 +23,7 @@ const ProductItem = ({ product, onEdit, onDelete }) => {
                </Typography>
 
                <Typography variant="body2" color="textSecondary">
-                  <strong>Garantie:</strong> {product.warranty_years} {product.warranty_years === 1 ? 'an' : 'ans'}
+                  <strong>Garantie:</strong> {product.warranty_years} {product.warranty_years >= 0 ? 'an' : 'ans'}
                </Typography>
 
                <Typography variant="body2" color="textSecondary">

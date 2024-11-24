@@ -71,8 +71,8 @@ const App = () => {
   };
 
   return (
-    <Container maxWidth="sm" sx={{ paddingTop: 5 }}>
-      <Typography variant="h3" align="center" gutterBottom>Gestion des Produits</Typography>
+    <Container maxWidth="md" sx={{ paddingTop: 5 }}>
+      <Typography variant="h4" align="center" gutterBottom>Gestion des Produits</Typography>
       <ProductForm
         isEditing={isEditing}
         currentProduct={currentProduct}
@@ -82,13 +82,13 @@ const App = () => {
       />
 
       {loading && (
-        <Box display="flex" justifyContent="center" sx={{ marginTop: 2 }}>
+        <Box display="flex" justifyContent="center" sx={{ marginTop: 5 }}>
           <CircularProgress />
         </Box>
       )}
 
       {error && (
-        <Alert severity="error" sx={{ marginTop: 2 }}>
+        <Alert severity="error" sx={{ marginTop: 5 }}>
           {error}
         </Alert>
       )}

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { TextField, Button, FormControlLabel, Checkbox, Snackbar, Container, Grid } from '@mui/material';
+import { TextField, Button, FormControlLabel, Checkbox, Snackbar, Container, Grid, Typography } from '@mui/material';
 
 
 const ProductForm = ({ isEditing, currentProduct, setIsEditing, fetchProduits }) => {
@@ -65,6 +65,7 @@ const ProductForm = ({ isEditing, currentProduct, setIsEditing, fetchProduits })
          setRating('');
          setWarranty_years('');
          setAvailable(false);
+         setIsEditing(false);
 
       } catch (error) {
 
@@ -82,7 +83,7 @@ const ProductForm = ({ isEditing, currentProduct, setIsEditing, fetchProduits })
    };
 
    return (
-      <Container maxWidth="sm" style={{ marginTop: 20 }}>
+      <div>
          <form onSubmit={handleSubmit}>
             <Grid container spacing={2}>
                {/* Nom du produit */}
@@ -148,17 +149,32 @@ const ProductForm = ({ isEditing, currentProduct, setIsEditing, fetchProduits })
                   />
                </Grid>
 
-               {/* Disponible */}
                <Grid item xs={12} sm={6}>
                   <FormControlLabel
                      control={
                         <Checkbox
                            checked={available}
                            onChange={(e) => setAvailable(e.target.checked)}
-                           color="primary"
+                           color="primary" // Change la couleur du checkbox
+                           sx={{
+                              '&.Mui-checked': {
+                                 color: '#00796b', // Couleur personnalisée quand coché
+                              },
+                           }}
                         />
                      }
-                     label="Disponible"
+                     label={
+                        <Typography
+                           variant="body1"
+                           sx={{
+                              color: available ? 'green' : 'red', // Change la couleur du texte selon la disponibilité
+                              fontWeight: 600, // Style du texte
+                           }}
+                        >
+                           {available ? 'Disponible' : 'Non disponible'}
+                        </Typography>
+                     }
+                     labelPlacement="end" // Placer le label à droite du checkbox
                   />
                </Grid>
 
@@ -168,7 +184,7 @@ const ProductForm = ({ isEditing, currentProduct, setIsEditing, fetchProduits })
                      type="submit"
                      variant="contained"
                      color="primary"
-                     fullWidth>
+                  >
                      {isEditing ? 'Mettre à jour' : 'Ajouter'}
                   </Button>
                </Grid>
@@ -182,7 +198,7 @@ const ProductForm = ({ isEditing, currentProduct, setIsEditing, fetchProduits })
             onClose={handleCloseSnackbar}
             message={message}
          />
-      </Container>
+      </div>
    );
 };
 
