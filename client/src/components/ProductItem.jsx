@@ -9,12 +9,12 @@ const ProductItem = ({ product, onEdit, onDelete }) => {
       <Card
          variant="outlined"
          sx={{
-            boxShadow: 3, // Ajoute un box-shadow (3 correspond à une valeur par défaut de MUI)
+            boxShadow: 3, 
             '&:hover': {
-               boxShadow: 6, // Plus intense au survol
+               boxShadow: 6, 
             },
-            borderRadius: 2, // Arrondi des coins
-            padding: 0, // Espace interne de la carte
+            borderRadius: 2, 
+            padding: 0, 
          }}
       >
          <CardContent>
