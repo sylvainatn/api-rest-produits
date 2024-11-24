@@ -1,5 +1,7 @@
 import React from 'react';
 import { Button, Card, CardContent, Typography, Grid } from '@mui/material';
+import PropTypes from 'prop-types';
+
 
 const ProductItem = ({ product, onEdit, onDelete }) => {
    return (
@@ -52,6 +54,20 @@ const ProductItem = ({ product, onEdit, onDelete }) => {
          </Card>
       </Grid>
    );
+};
+
+ProductItem.propTypes = {
+   product: PropTypes.shape({
+      name: PropTypes.string.isRequired,
+      type: PropTypes.string.isRequired,
+      price: PropTypes.number.isRequired,
+      rating: PropTypes.number,
+      warranty_years: PropTypes.number,
+      available: PropTypes.bool.isRequired,
+      _id: PropTypes.string.isRequired,
+   }).isRequired,
+   onEdit: PropTypes.func.isRequired,
+   onDelete: PropTypes.func.isRequired,
 };
 
 export default ProductItem;

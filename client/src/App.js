@@ -72,7 +72,7 @@ const App = () => {
 
   return (
     <Container maxWidth="md" sx={{ paddingTop: 5 }}>
-      <Typography variant="h4" align="center" gutterBottom>Gestion des Produits</Typography>
+      <Typography variant="h4" align="center" gutterBottom>Gestion des Produits</Typography><br />
       <ProductForm
         isEditing={isEditing}
         currentProduct={currentProduct}

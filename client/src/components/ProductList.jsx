@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import ProductItem from './ProductItem';
 
 const ProductList = ({ produits, onEdit, onDelete }) => {
@@ -20,5 +21,24 @@ const ProductList = ({ produits, onEdit, onDelete }) => {
       </div>
    );
 };
+
+
+ProductList.propTypes = {
+   produits: PropTypes.arrayOf(
+      PropTypes.shape({
+         _id: PropTypes.string.isRequired,
+         name: PropTypes.string.isRequired,
+         type: PropTypes.string.isRequired,
+         price: PropTypes.number.isRequired,
+         rating: PropTypes.number,
+         warranty_years: PropTypes.number,
+         available: PropTypes.bool.isRequired,
+      })
+   ).isRequired,
+   onEdit: PropTypes.func.isRequired,
+   onDelete: PropTypes.func.isRequired,
+};
+
+
 
 export default ProductList;

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { TextField, Button, FormControlLabel, Checkbox, Snackbar, Container, Grid, Typography } from '@mui/material';
+import PropTypes from 'prop-types';
+import { TextField, Button, FormControlLabel, Checkbox, Snackbar, Grid, Typography } from '@mui/material';
 
 
 const ProductForm = ({ isEditing, currentProduct, setIsEditing, fetchProduits }) => {
@@ -82,6 +83,8 @@ const ProductForm = ({ isEditing, currentProduct, setIsEditing, fetchProduits })
       setOpen(false);
    };
 
+
+
    return (
       <div>
          <form onSubmit={handleSubmit}>
@@ -95,6 +98,11 @@ const ProductForm = ({ isEditing, currentProduct, setIsEditing, fetchProduits })
                      value={name}
                      onChange={(e) => setName(e.target.value)}
                      required
+                     sx={{
+                        '& .MuiOutlinedInput-root': {
+                           borderRadius: '12px', // Ajuste le rayon selon ton besoin
+                        },
+                     }}
                   />
                </Grid>
 
@@ -107,6 +115,11 @@ const ProductForm = ({ isEditing, currentProduct, setIsEditing, fetchProduits })
                      value={type}
                      onChange={(e) => setType(e.target.value)}
                      required
+                     sx={{
+                        '& .MuiOutlinedInput-root': {
+                           borderRadius: '12px', // Ajuste le rayon selon ton besoin
+                        },
+                     }}
                   />
                </Grid>
 
@@ -120,6 +133,11 @@ const ProductForm = ({ isEditing, currentProduct, setIsEditing, fetchProduits })
                      value={price}
                      onChange={(e) => setPrice(e.target.value)}
                      required
+                     sx={{
+                        '& .MuiOutlinedInput-root': {
+                           borderRadius: '12px', // Ajuste le rayon selon ton besoin
+                        },
+                     }}
                   />
                </Grid>
 
@@ -133,6 +151,11 @@ const ProductForm = ({ isEditing, currentProduct, setIsEditing, fetchProduits })
                      value={rating}
                      onChange={(e) => setRating(e.target.value)}
                      required
+                     sx={{
+                        '& .MuiOutlinedInput-root': {
+                           borderRadius: '12px', // Ajuste le rayon selon ton besoin
+                        },
+                     }}
                   />
                </Grid>
 
@@ -146,6 +169,11 @@ const ProductForm = ({ isEditing, currentProduct, setIsEditing, fetchProduits })
                      value={warranty_years}
                      onChange={(e) => setWarranty_years(e.target.value)}
                      required
+                     sx={{
+                        '& .MuiOutlinedInput-root': {
+                           borderRadius: '12px', // Ajuste le rayon selon ton besoin
+                        },
+                     }}
                   />
                </Grid>
 
@@ -167,7 +195,7 @@ const ProductForm = ({ isEditing, currentProduct, setIsEditing, fetchProduits })
                         <Typography
                            variant="body1"
                            sx={{
-                              color: available ? 'green' : 'red', // Change la couleur du texte selon la disponibilité
+                              color: available ? 'green' : 'black', // Change la couleur du texte selon la disponibilité
                               fontWeight: 600, // Style du texte
                            }}
                         >
@@ -200,6 +228,21 @@ const ProductForm = ({ isEditing, currentProduct, setIsEditing, fetchProduits })
          />
       </div>
    );
+};
+
+ProductForm.propTypes = {
+   isEditing: PropTypes.bool.isRequired,
+   currentProduct: PropTypes.shape({
+      name: PropTypes.string,
+      type: PropTypes.string,
+      price: PropTypes.number,
+      rating: PropTypes.number,
+      warranty_years: PropTypes.number,
+      available: PropTypes.bool,
+      _id: PropTypes.string,
+   }).isRequired,
+   setIsEditing: PropTypes.func.isRequired,
+   fetchProduits: PropTypes.func.isRequired,
 };
 
 export default ProductForm;
