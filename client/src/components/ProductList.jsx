@@ -34,6 +34,7 @@ const ProductList = ({ produits, onEdit, onDelete }) => {
    );
 };
 
+// Valider les props du composant
 ProductList.propTypes = {
    produits: PropTypes.arrayOf(
       PropTypes.shape({

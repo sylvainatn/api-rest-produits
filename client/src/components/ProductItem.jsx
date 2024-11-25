@@ -53,15 +53,16 @@ const ProductItem = ({ product, onEdit, onDelete }) => {
    );
 };
 
+// Valider les props du composant
 ProductItem.propTypes = {
    product: PropTypes.shape({
+      _id: PropTypes.number.isRequired,
       name: PropTypes.string.isRequired,
       type: PropTypes.string.isRequired,
       price: PropTypes.number,
       rating: PropTypes.number,
       warranty_years: PropTypes.number,
       available: PropTypes.bool.isRequired,
-      _id: PropTypes.number.isRequired,
    }).isRequired,
    onEdit: PropTypes.func.isRequired,
    onDelete: PropTypes.func.isRequired,

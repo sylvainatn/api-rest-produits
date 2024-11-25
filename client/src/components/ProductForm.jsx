@@ -251,16 +251,17 @@ const ProductForm = ({ isEditing, currentProduct, setIsEditing, fetchProduits })
    );
 };
 
+// Valider les props du composant
 ProductForm.propTypes = {
    isEditing: PropTypes.bool.isRequired,
    currentProduct: PropTypes.shape({
+      _id: PropTypes.number,
       name: PropTypes.string,
       type: PropTypes.string,
       price: PropTypes.number,
       rating: PropTypes.number,
       warranty_years: PropTypes.number,
       available: PropTypes.bool,
-
    }),
    setIsEditing: PropTypes.func.isRequired,
    fetchProduits: PropTypes.func.isRequired,
