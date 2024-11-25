@@ -33,7 +33,6 @@ const ProductForm = ({ isEditing, currentProduct, setIsEditing, fetchProduits })
 
    // Fonction pour réinitialiser les champs du formulaire
    const handleReset = () => {
-      // Réinitialiser les champs à leurs valeurs initiales
       setName('');
       setType('');
       setPrice('');
@@ -41,7 +40,6 @@ const ProductForm = ({ isEditing, currentProduct, setIsEditing, fetchProduits })
       setWarranty_years('');
       setAvailable(false);
       setIsEditing(false);
-
    };
 
    const handleSubmit = async (e) => {
@@ -262,8 +260,8 @@ ProductForm.propTypes = {
       rating: PropTypes.number,
       warranty_years: PropTypes.number,
       available: PropTypes.bool,
-      _id: PropTypes.string,
-   }).isRequired,
+
+   }),
    setIsEditing: PropTypes.func.isRequired,
    fetchProduits: PropTypes.func.isRequired,
 };

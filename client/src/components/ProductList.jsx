@@ -37,7 +37,7 @@ const ProductList = ({ produits, onEdit, onDelete }) => {
 ProductList.propTypes = {
    produits: PropTypes.arrayOf(
       PropTypes.shape({
-         _id: PropTypes.string.isRequired,
+         _id: PropTypes.number.isRequired,
          name: PropTypes.string.isRequired,
          type: PropTypes.string.isRequired,
          price: PropTypes.number.isRequired,

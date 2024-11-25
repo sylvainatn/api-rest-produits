@@ -9,12 +9,12 @@ const ProductItem = ({ product, onEdit, onDelete }) => {
       <Card
          variant="outlined"
          sx={{
-            boxShadow: 3, // Ajoute un box-shadow (3 correspond à une valeur par défaut de MUI)
+            boxShadow: 3,
             '&:hover': {
-               boxShadow: 6, // Plus intense au survol
+               boxShadow: 6,
             },
-            borderRadius: 2, // Arrondi des coins
-            padding: 0, // Espace interne de la carte
+            borderRadius: 2,
+            padding: 0,
          }}
       >
          <CardContent>
@@ -57,11 +57,11 @@ ProductItem.propTypes = {
    product: PropTypes.shape({
       name: PropTypes.string.isRequired,
       type: PropTypes.string.isRequired,
-      price: PropTypes.number,  // Le prix peut être nul ou non défini
-      rating: PropTypes.number, // Le rating peut être nul ou non défini
-      warranty_years: PropTypes.number, // La garantie peut être nulle ou non définie
+      price: PropTypes.number,
+      rating: PropTypes.number,
+      warranty_years: PropTypes.number,
       available: PropTypes.bool.isRequired,
-      _id: PropTypes.string.isRequired,
+      _id: PropTypes.number.isRequired,
    }).isRequired,
    onEdit: PropTypes.func.isRequired,
    onDelete: PropTypes.func.isRequired,
