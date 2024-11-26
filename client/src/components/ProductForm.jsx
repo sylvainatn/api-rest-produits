@@ -12,10 +12,10 @@ const ProductForm = ({ isEditing, currentProduct, setIsEditing, fetchProduits })
    const [rating, setRating] = useState('');
    const [warranty_years, setWarranty_years] = useState('');
    const [available, setAvailable] = useState(false);
-
-   // Messages
+   // Messages et styles
    const [message, setMessage] = useState('');
    const [open, setOpen] = useState(false);
+   const [severity, setSeverity] = useState('success');
 
    const API_URL = 'http://localhost:5000/api';
 
@@ -32,7 +32,7 @@ const ProductForm = ({ isEditing, currentProduct, setIsEditing, fetchProduits })
    }, [isEditing, currentProduct]);
 
    // Fonction pour réinitialiser les champs du formulaire
-   const handleReset = () => {
+   const handleResetForm = () => {
       setName('');
       setType('');
       setPrice('');
@@ -63,23 +63,22 @@ const ProductForm = ({ isEditing, currentProduct, setIsEditing, fetchProduits })
             serverResponse = await axios.post(`${API_URL}/produits`, product);
          }
 
+         fetchProduits(); // Récupérer la liste mise à jour des produits        
+         handleResetForm();// Réinitialiser les champs du formulaire
          setMessage(serverResponse.data.message); // Message de l'API
+         setSeverity('success');
          setOpen(true);
-
-         // Récupérer la liste mise à jour des produits
-         fetchProduits();
-
-         // Réinitialiser les champs du formulaire
-         handleReset();
-
 
       } catch (error) {
 
          if (error.response && error.response.data) {
             setMessage(error.response.data.errors);
+            setSeverity('error');
+            setOpen(true);
          } else {
             setMessage('Erreur lors de l\'ajout ou modification du produit');
          }
+         setSeverity('error');
          setOpen(true);
       }
    };
@@ -232,7 +231,7 @@ const ProductForm = ({ isEditing, currentProduct, setIsEditing, fetchProduits })
                         },
                      }}
                      color="black"
-                     onClick={handleReset} // Appel de la fonction pour réinitialiser
+                     onClick={handleResetForm} // Appel de la fonction pour réinitialiser
                   >
                      Effacer tout
                   </Button>
@@ -243,11 +242,11 @@ const ProductForm = ({ isEditing, currentProduct, setIsEditing, fetchProduits })
          {/* Snackbar pour afficher le message */}
          <Snackbar
             open={open}
-            autoHideDuration={3000}
+            autoHideDuration={5000}
             onClose={handleCloseSnackbar}
             anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
          >
-            <Alert onClose={handleCloseSnackbar} severity="success" sx={{ width: '100%' }}>
+            <Alert onClose={handleCloseSnackbar} severity={severity} sx={{ width: '100%' }}>
                {message}
             </Alert>
          </Snackbar>
