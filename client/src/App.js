@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { Container, Typography, Box, CircularProgress, Alert } from '@mui/material';
+import { Container, Typography, Box, CircularProgress, Alert, Snackbar } from '@mui/material';
 import ProductList from './components/ProductList';
 import ProductForm from './components/ProductForm';
 import axios from 'axios';
 import { io } from 'socket.io-client';
-
 
 const socket = io('http://localhost:5000');
 
@@ -15,9 +14,9 @@ const App = () => {
   const [currentProduct, setCurrentProduct] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [snackbarMessage, setSnackbarMessage] = useState(''); // État pour le message
+  const [snackbarOpen, setSnackbarOpen] = useState(false); // État pour l'ouverture du Snackbar
 
-
-  // Définition de fetchProduits
   const fetchProduits = async () => {
     setLoading(true);
     setError(null);
@@ -31,11 +30,9 @@ const App = () => {
     }
   };
 
-
   useEffect(() => {
-    fetchProduits(); // Appel initial pour charger les produits
+    fetchProduits();
 
-    // Gestion des événements WebSocket
     socket.on('produitAjoute', (nouveauProduit) => {
       setProduits((prevProduits) => [...prevProduits, nouveauProduit]);
     });
@@ -50,19 +47,21 @@ const App = () => {
     };
   }, []);
 
+  const handleDelete = async (id) => {
+    try {
+      const response = await axios.delete(`http://localhost:5000/api/produits/${id}`);
+      setSnackbarMessage(response.data.message || 'Produit supprimé avec succès');
+      setSnackbarOpen(true); // Ouvre le Snackbar
+    } catch (error) {
+      console.error('Erreur dans handleDelete:', error);
+      setSnackbarMessage(error.response?.data?.message || 'Erreur lors de la suppression');
+      setSnackbarOpen(true); // Ouvre le Snackbar pour afficher le message d'erreur
+    }
+  };
 
   const handleEdit = (product) => {
     setCurrentProduct(product);
     setIsEditing(true);
-  };
-
-  const handleDelete = async (id) => {
-    try {
-      await axios.delete(`http://localhost:5000/api/produits/${id}`);
-      setProduits((prevProduits) => prevProduits.filter((produit) => produit._id !== id)); // Mise à jour locale
-    } catch (error) {
-      console.error('Erreur lors de la suppression du produit', error);
-    }
   };
 
   const handleFormClose = () => {
@@ -72,12 +71,15 @@ const App = () => {
 
   return (
     <Container maxWidth="md" sx={{ paddingTop: 5 }}>
-      <Typography variant="h4" align="center" gutterBottom>Gestion des Produits</Typography><br />
+      <Typography variant="h4" align="center" gutterBottom>
+        Gestion des Produits
+      </Typography>
+      <br />
       <ProductForm
         isEditing={isEditing}
         currentProduct={currentProduct}
         setIsEditing={setIsEditing}
-        fetchProduits={fetchProduits} // Passé comme prop
+        fetchProduits={fetchProduits}
         handleFormClose={handleFormClose}
       />
 
@@ -96,6 +98,14 @@ const App = () => {
       {!loading && !error && (
         <ProductList produits={produits} onEdit={handleEdit} onDelete={handleDelete} />
       )}
+
+      {/* Snackbar pour afficher les messages */}
+      <Snackbar
+        open={snackbarOpen}
+        autoHideDuration={3000}
+        onClose={() => setSnackbarOpen(false)}
+        message={snackbarMessage}
+      />
     </Container>
   );
 };

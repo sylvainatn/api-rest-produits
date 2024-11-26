@@ -1,6 +1,6 @@
 import express from 'express';
-import { connectDB } from './database.js'; 
-import { validateProduct } from './productValidators.js'; 
+import { connectDB } from './database.js';
+import { validateProduct } from './productValidators.js';
 
 const router = express.Router();
 

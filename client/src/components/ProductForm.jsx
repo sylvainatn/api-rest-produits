@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import PropTypes from 'prop-types';
-import { TextField, Button, FormControlLabel, Checkbox, Snackbar, Grid, Typography } from '@mui/material';
+import { TextField, Button, FormControlLabel, Checkbox, Snackbar, Grid, Typography, Alert } from '@mui/material';
 
 const ProductForm = ({ isEditing, currentProduct, setIsEditing, fetchProduits }) => {
 
@@ -240,13 +240,17 @@ const ProductForm = ({ isEditing, currentProduct, setIsEditing, fetchProduits })
             </Grid>
          </form>
 
-         {/* Afficher les messages de succès ou d'erreur */}
+         {/* Snackbar pour afficher le message */}
          <Snackbar
             open={open}
-            autoHideDuration={6000}
+            autoHideDuration={3000}
             onClose={handleCloseSnackbar}
-            message={message}
-         />
+            anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
+         >
+            <Alert onClose={handleCloseSnackbar} severity="success" sx={{ width: '100%' }}>
+               {message}
+            </Alert>
+         </Snackbar>
       </div>
    );
 };

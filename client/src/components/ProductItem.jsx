@@ -5,6 +5,11 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 
 const ProductItem = ({ product, onEdit, onDelete }) => {
+
+   const handleDeleteClick = async () => {
+      await onDelete(product._id);
+   }
+
    return (
       <Card
          variant="outlined"
@@ -21,31 +26,29 @@ const ProductItem = ({ product, onEdit, onDelete }) => {
             <Typography variant="h6" component="div">
                {product.name}
             </Typography>
-            {/* Vérification du prix avant affichage */}
             <Typography variant="body1" color="primary">
                {product.price ? `${product.price}€` : 'Prix non spécifié'}
             </Typography>
             <Typography variant="body2" color="textSecondary">
                Type: {product.type}
             </Typography>
-
             <Typography variant="body2" color="textSecondary">
                Rating: {product.rating ? product.rating : 'N/A'}
             </Typography>
             <Typography variant="body2" color="textSecondary">
-               Garantie: {product.warranty_years ? `${product.warranty_years} ${product.warranty_years > 1 ? 'ans' : 'an'}` : 'Non spécifiée'}
+               Garantie: {product.warranty_years
+                  ? `${product.warranty_years} ${product.warranty_years > 1 ? 'ans' : 'an'}`
+                  : 'Non spécifiée'}
             </Typography>
             <Typography variant="body2" color={product.available ? 'green' : 'red'}>
                {product.available ? 'Disponible' : 'Non disponible'}
             </Typography>
          </CardContent>
          <Box display="flex" justifyContent="flex-end" p={1}>
-            {/* Bouton pour modifier */}
             <IconButton onClick={() => onEdit(product)}>
                <EditIcon color="primary" />
             </IconButton>
-            {/* Bouton pour supprimer */}
-            <IconButton onClick={() => onDelete(product._id)} color="error">
+            <IconButton color="error" onClick={handleDeleteClick}>
                <DeleteIcon />
             </IconButton>
          </Box>
