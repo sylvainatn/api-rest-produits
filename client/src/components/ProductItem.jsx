@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card, CardContent, Typography, IconButton, Box } from '@mui/material';
+import { Card, CardContent, Typography, IconButton, Box, Rating } from '@mui/material';
 import PropTypes from 'prop-types';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -29,12 +29,23 @@ const ProductItem = ({ product, onEdit, onDelete }) => {
             <Typography variant="body1" color="primary">
                {product.price ? `${product.price}€` : 'Prix non spécifié'}
             </Typography>
+            <Box display="flex" alignItems="center">
+               <Typography variant="body2" color='textSecondary' sx={{ marginRight: '8px' }}>
+                  {product.rating}
+               </Typography>
+               {/* Composant Rating */}
+               <Rating
+                  name="rating"
+                  value={product.rating}
+                  precision={0.1}
+                  readOnly
+                  size='small'
+               />
+            </Box>
             <Typography variant="body2" color="textSecondary">
                Type: {product.type}
             </Typography>
-            <Typography variant="body2" color="textSecondary">
-               Rating: {product.rating ? product.rating : 'N/A'}
-            </Typography>
+
             <Typography variant="body2" color="textSecondary">
                Garantie: {product.warranty_years
                   ? `${product.warranty_years} ${product.warranty_years > 1 ? 'ans' : 'an'}`

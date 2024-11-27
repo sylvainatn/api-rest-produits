@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import PropTypes from 'prop-types';
-import { TextField, Button, FormControlLabel, Checkbox, Snackbar, Grid, Typography, Alert } from '@mui/material';
+import { TextField, Button, FormControlLabel, Checkbox, Snackbar, Grid, Typography, Alert, Stack, Rating } from '@mui/material';
 
 const ProductForm = ({ isEditing, currentProduct, setIsEditing, fetchProduits }) => {
 
@@ -9,7 +9,7 @@ const ProductForm = ({ isEditing, currentProduct, setIsEditing, fetchProduits })
    const [name, setName] = useState('');
    const [type, setType] = useState('');
    const [price, setPrice] = useState('');
-   const [rating, setRating] = useState('');
+   const [rating, setRating] = useState(0);
    const [warranty_years, setWarranty_years] = useState('');
    const [available, setAvailable] = useState(false);
    // Messages et styles
@@ -93,6 +93,7 @@ const ProductForm = ({ isEditing, currentProduct, setIsEditing, fetchProduits })
             <Grid container spacing={2}>
                {/* Nom du produit */}
                <Grid item xs={12} sm={6}>
+
                   <TextField
                      label="Nom du produit"
                      variant="outlined"
@@ -102,7 +103,7 @@ const ProductForm = ({ isEditing, currentProduct, setIsEditing, fetchProduits })
                      required
                      sx={{
                         '& .MuiOutlinedInput-root': {
-                           borderRadius: '12px', // Ajuste le rayon selon ton besoin
+                           borderRadius: '12px',
                         },
                      }}
                   />
@@ -119,7 +120,7 @@ const ProductForm = ({ isEditing, currentProduct, setIsEditing, fetchProduits })
                      required
                      sx={{
                         '& .MuiOutlinedInput-root': {
-                           borderRadius: '12px', // Ajuste le rayon selon ton besoin
+                           borderRadius: '12px',
                         },
                      }}
                   />
@@ -137,7 +138,7 @@ const ProductForm = ({ isEditing, currentProduct, setIsEditing, fetchProduits })
                      required
                      sx={{
                         '& .MuiOutlinedInput-root': {
-                           borderRadius: '12px', // Ajuste le rayon selon ton besoin
+                           borderRadius: '12px',
                         },
                      }}
                   />
@@ -145,19 +146,13 @@ const ProductForm = ({ isEditing, currentProduct, setIsEditing, fetchProduits })
 
                {/* Rating */}
                <Grid item xs={12} sm={6}>
-                  <TextField
-                     label="Rating"
-                     variant="outlined"
-                     fullWidth
-                     type="number"
+                  <Typography component="legend">Notation</Typography>
+                  <Rating
+                     name="rating"
+                     precision={0.1}
                      value={rating}
-                     onChange={(e) => setRating(e.target.value)}
-                     required
-                     sx={{
-                        '& .MuiOutlinedInput-root': {
-                           borderRadius: '12px', // Ajuste le rayon selon ton besoin
-                        },
-                     }}
+                     size='large'
+                     onChange={(_, newValue) => setRating(newValue)}
                   />
                </Grid>
 
@@ -173,7 +168,7 @@ const ProductForm = ({ isEditing, currentProduct, setIsEditing, fetchProduits })
                      required
                      sx={{
                         '& .MuiOutlinedInput-root': {
-                           borderRadius: '12px', // Ajuste le rayon selon ton besoin
+                           borderRadius: '12px',
                         },
                      }}
                   />
@@ -185,26 +180,21 @@ const ProductForm = ({ isEditing, currentProduct, setIsEditing, fetchProduits })
                         <Checkbox
                            checked={available}
                            onChange={(e) => setAvailable(e.target.checked)}
-                           color="primary" // Change la couleur du checkbox
-                           sx={{
-                              '&.Mui-checked': {
-                                 color: '#00796b', // Couleur personnalisée quand coché
-                              },
-                           }}
+                           color="success"
                         />
                      }
                      label={
                         <Typography
                            variant="body1"
                            sx={{
-                              color: available ? 'green' : 'black', // Change la couleur du texte selon la disponibilité
-                              fontWeight: 600, // Style du texte
+                              color: available ? 'green' : 'black',
+                              fontWeight: 600,
                            }}
                         >
                            {available ? 'Disponible' : 'Non disponible'}
                         </Typography>
                      }
-                     labelPlacement="end" // Placer le label à droite du checkbox
+                     labelPlacement="end"
                   />
                </Grid>
 
@@ -225,13 +215,13 @@ const ProductForm = ({ isEditing, currentProduct, setIsEditing, fetchProduits })
                      type="button"
                      variant="contained"
                      sx={{
-                        backgroundColor: '#FFEB3B', // Jaune (vous pouvez ajuster ce code couleur si nécessaire)
+                        backgroundColor: '#FFEB3B',
                         '&:hover': {
-                           backgroundColor: '#FDD835', // Jaune plus foncé au survol
+                           backgroundColor: '#FDD835',
                         },
                      }}
                      color="black"
-                     onClick={handleResetForm} // Appel de la fonction pour réinitialiser
+                     onClick={handleResetForm}
                   >
                      Effacer tout
                   </Button>
