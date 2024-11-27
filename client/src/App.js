@@ -1,9 +1,17 @@
 import React, { useEffect, useState } from 'react';
-import { Container, Typography, Box, CircularProgress, Alert, Snackbar } from '@mui/material';
 import ProductList from './components/ProductList';
 import ProductForm from './components/ProductForm';
 import axios from 'axios';
 import { io } from 'socket.io-client';
+import {
+  Container,
+  Typography,
+  Box,
+  CircularProgress,
+  Alert,
+  AlertTitle,
+  Snackbar
+} from '@mui/material';
 
 const socket = io('http://localhost:5000');
 
@@ -102,10 +110,15 @@ const App = () => {
       {/* Snackbar pour afficher les messages */}
       <Snackbar
         open={snackbarOpen}
-        autoHideDuration={3000}
+        autoHideDuration={5000}
         onClose={() => setSnackbarOpen(false)}
-        message={snackbarMessage}
-      />
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
+      >
+        <Alert onClose={() => setSnackbarOpen(false)} variant='filled' severity='info' sx={{ width: '100%' }}>
+          <AlertTitle>Info</AlertTitle>
+          {snackbarMessage}
+        </Alert>
+      </Snackbar>
     </Container>
   );
 };

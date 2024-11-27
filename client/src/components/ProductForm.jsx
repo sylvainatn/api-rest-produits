@@ -1,7 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import PropTypes from 'prop-types';
-import { TextField, Button, FormControlLabel, Checkbox, Snackbar, Grid, Typography, Alert, Stack, Rating } from '@mui/material';
+import {
+   TextField,
+   Button,
+   FormControlLabel,
+   Checkbox,
+   Snackbar,
+   Grid,
+   Typography,
+   Alert,
+   AlertTitle,
+   Rating
+} from '@mui/material';
 
 const ProductForm = ({ isEditing, currentProduct, setIsEditing, fetchProduits }) => {
 
@@ -236,7 +247,8 @@ const ProductForm = ({ isEditing, currentProduct, setIsEditing, fetchProduits })
             onClose={handleCloseSnackbar}
             anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
          >
-            <Alert onClose={handleCloseSnackbar} severity={severity} sx={{ width: '100%' }}>
+            <Alert onClose={handleCloseSnackbar} variant='filled' severity={severity} sx={{ width: '100%' }}>
+               <AlertTitle>{severity.charAt(0).toUpperCase() + severity.slice(1)}</AlertTitle>
                {message}
             </Alert>
          </Snackbar>
