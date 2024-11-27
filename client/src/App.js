@@ -22,8 +22,8 @@ const App = () => {
   const [currentProduct, setCurrentProduct] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const [snackbarMessage, setSnackbarMessage] = useState(''); // État pour le message
-  const [snackbarOpen, setSnackbarOpen] = useState(false); // État pour l'ouverture du Snackbar
+  const [snackbarMessage, setSnackbarMessage] = useState('');
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
 
   const fetchProduits = async () => {
     setLoading(true);
@@ -59,11 +59,11 @@ const App = () => {
     try {
       const response = await axios.delete(`http://localhost:5000/api/produits/${id}`);
       setSnackbarMessage(response.data.message || 'Produit supprimé avec succès');
-      setSnackbarOpen(true); // Ouvre le Snackbar
+      setSnackbarOpen(true);
     } catch (error) {
       console.error('Erreur dans handleDelete:', error);
       setSnackbarMessage(error.response?.data?.message || 'Erreur lors de la suppression');
-      setSnackbarOpen(true); // Ouvre le Snackbar pour afficher le message d'erreur
+      setSnackbarOpen(true);
     }
   };
 
@@ -79,10 +79,12 @@ const App = () => {
 
   return (
     <Container maxWidth="md" sx={{ paddingTop: 5 }}>
+
       <Typography variant="h4" align="center" gutterBottom>
         Gestion des Produits
       </Typography>
       <br />
+
       <ProductForm
         isEditing={isEditing}
         currentProduct={currentProduct}
@@ -107,7 +109,6 @@ const App = () => {
         <ProductList produits={produits} onEdit={handleEdit} onDelete={handleDelete} />
       )}
 
-      {/* Snackbar pour afficher les messages */}
       <Snackbar
         open={snackbarOpen}
         autoHideDuration={5000}

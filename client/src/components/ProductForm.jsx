@@ -1,18 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import PropTypes from 'prop-types';
+import Grid from '@mui/material/Grid2'
 import {
    TextField,
    Button,
    FormControlLabel,
    Checkbox,
    Snackbar,
-   Grid,
    Typography,
    Alert,
    AlertTitle,
    Rating
 } from '@mui/material';
+
 
 const ProductForm = ({ isEditing, currentProduct, setIsEditing, fetchProduits }) => {
 
@@ -103,7 +104,7 @@ const ProductForm = ({ isEditing, currentProduct, setIsEditing, fetchProduits })
          <form onSubmit={handleSubmit}>
             <Grid container spacing={2}>
                {/* Nom du produit */}
-               <Grid item xs={12} sm={6}>
+               <Grid size={6}>
 
                   <TextField
                      label="Nom du produit"
@@ -121,7 +122,7 @@ const ProductForm = ({ isEditing, currentProduct, setIsEditing, fetchProduits })
                </Grid>
 
                {/* Type de produit */}
-               <Grid item xs={12} sm={6}>
+               <Grid size={6}>
                   <TextField
                      label="Type de produit"
                      variant="outlined"
@@ -138,7 +139,7 @@ const ProductForm = ({ isEditing, currentProduct, setIsEditing, fetchProduits })
                </Grid>
 
                {/* Prix */}
-               <Grid item xs={12} sm={6}>
+               <Grid size={6}>
                   <TextField
                      label="Prix"
                      variant="outlined"
@@ -156,7 +157,7 @@ const ProductForm = ({ isEditing, currentProduct, setIsEditing, fetchProduits })
                </Grid>
 
                {/* Rating */}
-               <Grid item xs={12} sm={6}>
+               <Grid size={6}>
                   <Typography component="legend">Notation</Typography>
                   <Rating
                      name="rating"
@@ -168,7 +169,7 @@ const ProductForm = ({ isEditing, currentProduct, setIsEditing, fetchProduits })
                </Grid>
 
                {/* Garantie (années) */}
-               <Grid item xs={12} sm={6}>
+               <Grid size={6}>
                   <TextField
                      label="Garantie (années)"
                      variant="outlined"
@@ -185,7 +186,7 @@ const ProductForm = ({ isEditing, currentProduct, setIsEditing, fetchProduits })
                   />
                </Grid>
 
-               <Grid item xs={12} sm={6}>
+               <Grid size={6}>
                   <FormControlLabel
                      control={
                         <Checkbox
@@ -210,7 +211,7 @@ const ProductForm = ({ isEditing, currentProduct, setIsEditing, fetchProduits })
                </Grid>
 
                {/* Bouton de soumission */}
-               <Grid item xs={12}>
+               <Grid size={12}>
                   <Button
                      type="submit"
                      variant="contained"
@@ -221,7 +222,7 @@ const ProductForm = ({ isEditing, currentProduct, setIsEditing, fetchProduits })
                </Grid>
 
                {/* Bouton pour réinitialiser tous les champs */}
-               <Grid item xs={12}>
+               <Grid size={12}>
                   <Button
                      type="button"
                      variant="contained"
@@ -240,7 +241,7 @@ const ProductForm = ({ isEditing, currentProduct, setIsEditing, fetchProduits })
             </Grid>
          </form>
 
-         {/* Snackbar pour afficher le message */}
+         {/* Snackbar pour afficher les messages */}
          <Snackbar
             open={open}
             autoHideDuration={5000}

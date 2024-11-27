@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Grid, Typography } from '@mui/material';
+import Grid from '@mui/material/Grid2'
+import { Typography } from '@mui/material';
 import ProductItem from './ProductItem';
 
 const ProductList = ({ produits, onEdit, onDelete }) => {
@@ -17,7 +18,7 @@ const ProductList = ({ produits, onEdit, onDelete }) => {
             <Grid container spacing={2}>
                {produits.length > 0 ? (
                   produits.map((product) => (
-                     <Grid item xs={12} sm={6} md={4} key={product._id}>
+                     <Grid size={4} key={product._id}>
                         <ProductItem
                            product={product}
                            onEdit={onEdit}

@@ -1,8 +1,16 @@
 import React from 'react';
-import { Card, CardContent, Typography, IconButton, Box, Rating } from '@mui/material';
 import PropTypes from 'prop-types';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
+import {
+   Card,
+   CardContent,
+   Typography,
+   IconButton,
+   Box,
+   Rating
+} from '@mui/material';
+
 
 const ProductItem = ({ product, onEdit, onDelete }) => {
 
