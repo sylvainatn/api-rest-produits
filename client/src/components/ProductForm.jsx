@@ -48,7 +48,7 @@ const ProductForm = ({ isEditing, currentProduct, setIsEditing, fetchProduits })
       setName('');
       setType('');
       setPrice('');
-      setRating('');
+      setRating(0);
       setWarranty_years('');
       setAvailable(false);
       setIsEditing(false);
@@ -210,33 +210,36 @@ const ProductForm = ({ isEditing, currentProduct, setIsEditing, fetchProduits })
                   />
                </Grid>
 
-               {/* Bouton de soumission */}
-               <Grid size={12}>
-                  <Button
-                     type="submit"
-                     variant="contained"
-                     color="primary"
-                  >
-                     {isEditing ? 'Mettre à jour' : 'Ajouter'}
-                  </Button>
-               </Grid>
+               {/* Box Boutons */}
+               <Grid container spacing={2} direction="row" alignItems="center">
+                  {/* Bouton de soumission */}
+                  <Grid size={{ xs: 'auto' }}>
+                     <Button
+                        type="submit"
+                        variant="contained"
+                        color="primary"
+                     >
+                        {isEditing ? 'Mettre à jour' : 'Ajouter'}
+                     </Button>
+                  </Grid>
 
-               {/* Bouton pour réinitialiser tous les champs */}
-               <Grid size={12}>
-                  <Button
-                     type="button"
-                     variant="contained"
-                     sx={{
-                        backgroundColor: '#FFEB3B',
-                        '&:hover': {
-                           backgroundColor: '#FDD835',
-                        },
-                     }}
-                     color="black"
-                     onClick={handleResetForm}
-                  >
-                     Effacer tout
-                  </Button>
+                  {/* Bouton pour réinitialiser tous les champs */}
+                  <Grid size={{ xs: 'auto' }}>
+                     <Button
+                        type="button"
+                        variant="contained"
+                        sx={{
+                           backgroundColor: '#FFEB3B',
+                           '&:hover': {
+                              backgroundColor: '#FDD835',
+                           },
+                        }}
+                        color="black"
+                        onClick={handleResetForm}
+                     >
+                        Effacer tout
+                     </Button>
+                  </Grid>
                </Grid>
             </Grid>
          </form>
