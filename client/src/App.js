@@ -3,6 +3,7 @@ import ProductList from './components/ProductList';
 import ProductForm from './components/ProductForm';
 import axios from 'axios';
 import { io } from 'socket.io-client';
+import { Brightness4, Brightness7 } from '@mui/icons-material';
 import {
   Container,
   Typography,
@@ -10,9 +11,14 @@ import {
   CircularProgress,
   Alert,
   AlertTitle,
-  Snackbar
+  Snackbar,
+  createTheme,
+  ThemeProvider,
+  CssBaseline,
+  IconButton
 } from '@mui/material';
 
+// Établit une connexion WebSocket entre le client et le serveur
 const socket = io('http://localhost:5000');
 
 const App = () => {
@@ -24,6 +30,17 @@ const App = () => {
   const [error, setError] = useState(null);
   const [snackbarMessage, setSnackbarMessage] = useState('');
   const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [darkMode, setDarkMode] = useState(false);
+
+  const toggleDarkMode = () => {
+    setDarkMode(!darkMode);
+  };
+
+  const theme = createTheme({
+    palette: {
+      mode: darkMode ? 'dark' : 'light',
+    },
+  });
 
   const fetchProduits = async () => {
     setLoading(true);
@@ -55,6 +72,7 @@ const App = () => {
     };
   }, []);
 
+
   const handleDelete = async (id) => {
     try {
       const response = await axios.delete(`http://localhost:5000/api/produits/${id}`);
@@ -78,49 +96,58 @@ const App = () => {
   };
 
   return (
-    <Container maxWidth="md" sx={{ paddingTop: 5 }}>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <Container maxWidth="md" sx={{ paddingTop: 5 }}>
 
-      <Typography variant="h4" align="center" gutterBottom>
-        Gestion des Produits
-      </Typography>
-      <br />
-
-      <ProductForm
-        isEditing={isEditing}
-        currentProduct={currentProduct}
-        setIsEditing={setIsEditing}
-        fetchProduits={fetchProduits}
-        handleFormClose={handleFormClose}
-      />
-
-      {loading && (
-        <Box display="flex" justifyContent="center" sx={{ marginTop: 5 }}>
-          <CircularProgress />
+        <Box display="flex" justifyContent="flex-end" alignItems="center" mb={2}>
+          <IconButton onClick={toggleDarkMode} color="inherit">
+            {darkMode ? <Brightness7 /> : <Brightness4 />}
+          </IconButton>
         </Box>
-      )}
 
-      {error && (
-        <Alert severity="error" sx={{ marginTop: 5 }}>
-          {error}
-        </Alert>
-      )}
+        <Typography variant="h4" align="center" gutterBottom>
+          Gestion des Produits
+        </Typography>
+        <br />
 
-      {!loading && !error && (
-        <ProductList produits={produits} onEdit={handleEdit} onDelete={handleDelete} />
-      )}
+        <ProductForm
+          isEditing={isEditing}
+          currentProduct={currentProduct}
+          setIsEditing={setIsEditing}
+          fetchProduits={fetchProduits}
+          handleFormClose={handleFormClose}
+        />
 
-      <Snackbar
-        open={snackbarOpen}
-        autoHideDuration={5000}
-        onClose={() => setSnackbarOpen(false)}
-        anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
-      >
-        <Alert onClose={() => setSnackbarOpen(false)} variant='filled' severity='info' sx={{ width: '100%' }}>
-          <AlertTitle>Info</AlertTitle>
-          {snackbarMessage}
-        </Alert>
-      </Snackbar>
-    </Container>
+        {loading && (
+          <Box display="flex" justifyContent="center" sx={{ marginTop: 5 }}>
+            <CircularProgress />
+          </Box>
+        )}
+
+        {error && (
+          <Alert severity="error" sx={{ marginTop: 5 }}>
+            {error}
+          </Alert>
+        )}
+
+        {!loading && !error && (
+          <ProductList produits={produits} onEdit={handleEdit} onDelete={handleDelete} />
+        )}
+
+        <Snackbar
+          open={snackbarOpen}
+          autoHideDuration={5000}
+          onClose={() => setSnackbarOpen(false)}
+          anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
+        >
+          <Alert onClose={() => setSnackbarOpen(false)} variant='filled' severity='info' sx={{ width: '100%' }}>
+            <AlertTitle>Info</AlertTitle>
+            {snackbarMessage}
+          </Alert>
+        </Snackbar>
+      </Container>
+    </ThemeProvider>
   );
 };
 

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import PropTypes from 'prop-types';
 import Grid from '@mui/material/Grid2'
+import { useTheme } from '@mui/material/styles';
 import {
    TextField,
    Button,
@@ -30,6 +31,7 @@ const ProductForm = ({ isEditing, currentProduct, setIsEditing, fetchProduits })
    const [severity, setSeverity] = useState('success');
 
    const API_URL = 'http://localhost:5000/api';
+   const theme = useTheme();
 
    // Initialisation des valeurs du formulaire lors de la modification d'un produit
    useEffect(() => {
@@ -67,6 +69,7 @@ const ProductForm = ({ isEditing, currentProduct, setIsEditing, fetchProduits })
       };
 
       try {
+
          let serverResponse;
 
          if (isEditing) {
@@ -186,6 +189,7 @@ const ProductForm = ({ isEditing, currentProduct, setIsEditing, fetchProduits })
                   />
                </Grid>
 
+               {/* Disponibilité */}
                <Grid size={6}>
                   <FormControlLabel
                      control={
@@ -199,7 +203,9 @@ const ProductForm = ({ isEditing, currentProduct, setIsEditing, fetchProduits })
                         <Typography
                            variant="body1"
                            sx={{
-                              color: available ? 'green' : 'black',
+                              color: available
+                                 ? 'green'
+                                 : theme.palette.text.primary,
                               fontWeight: 600,
                            }}
                         >
